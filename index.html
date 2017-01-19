@@ -16,8 +16,10 @@
           <form class="navbar-form navbar-left" role="search">
             <div class="form-group">
               <input type="text" class="form-control" ng-model="artist" placeholder="Artist Name" >
-
+              <select class="form-control text" ng-model="searchTerm" ng-options="val as prop for (prop, val) in searchOptions"></select>
               <button class="btn btn-primary" ng-click="getSongData()"> Submit </button>
+              <select class="form-control text" ng-model="sortTerm" ng-options="val as prop for (prop, val) in sortOptions"></select>
+              <input type="text" class="form-control" ng-model="filterOptions.filterText" placeholder="Filter">
             </div>
           </form>
         </div>
@@ -28,8 +30,8 @@
      <div class="gridStyle" ng-grid="gridOptions" swap-image="defaultInfo.search"></div>
     </div>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/ng-grid/2.0.11/ng-grid.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/ng-grid/2.0.11/ng-grid.debug.js"></script>
     <script src="js/app.js"></script>
     <script src="js/mainCtrl.js"></script>
     <script src="js/itunesService.js"></script>

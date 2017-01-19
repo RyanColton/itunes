@@ -1,18 +1,45 @@
 angular.module('itunes').controller('mainCtrl', function($scope, itunesService){
   //This is setting up the default behavior of our ng-grid. The important thing to note is the 'data' property. The value is 'songData'. That means ng-grid is looking for songData on $scope and is putting whatever songData is into the grid.
   //This means when you make your iTunes request, you'll need to get back the information, parse it accordingly, then set it to songData on the scope -> $scope.songData = ...
+  $scope.searchOptions = {
+    'All': '',
+    'Music': 'song',
+    'Movies': 'feature-movie',
+    'Podcast': 'podcast',
+    'TV Show': 'tv-episode'
+  }
+
+  $scope.sortOptions = {
+     'All': '',
+     'Title': 'Title',
+     'Artist': 'Artist',
+     'Collection Name': 'Collection',
+     'Type': 'Type'
+
+   }
+
+  $scope.sortTerm = '';
+
+
+  $scope.filterOptions = {
+    filterText: ''
+  };
+
+
   $scope.gridOptions = {
+
       data: 'songData',
       height: '110px',
-      sortInfo: {fields: ['Song', 'Artist', 'Collection', 'Type'], directions: ['asc']},
+      filterOptions: $scope.filterOptions,
+      sortInfo: {fields: ['Title', 'Artist', 'Collection', 'Type'], directions: ['asc']},
       columnDefs: [
         {field: 'Play', displayName: 'Play', width: '40px', cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a href="{{row.getProperty(col.field)}}"><img src="http://www.icty.org/x/image/Miscellaneous/play_icon30x30.png"></a></div>'},
         {field: 'Artist', displayName: 'Artist'},
-        {field: 'song', displayName: 'Song Title'},
+        {field: 'Title', displayName: 'Title'},
         {field: 'Collection', displayName: 'Collection'},
         {field: 'AlbumArt', displayName: 'Album Art', width: '110px', cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><img src="{{row.getProperty(col.field)}}"></div>'},
         {field: 'Type', displayName: 'Type'},
-        {field: 'CollectionPrice', displayName: 'Collection Price', cellFilter: 'currency'},
+        {field: 'CollectionPrice', displayName: 'Collection Price', cellFilter: 'currency:"$":2'},
       ]
   };
 
@@ -37,14 +64,26 @@ angular.module('itunes').controller('mainCtrl', function($scope, itunesService){
           CollectionPrice: item.collectionPrice,
           Play: item.previewUrl,
           Type: item.kind,
-          song: item.trackCensoredName,
+          Title: item.trackCensoredName,
         }
       });
 
-    });
+      if ($scope.searchTerm) {
+        $scope.songData = $scope.songData.filter(function(item) {
+          return (item.Type === $scope.searchTerm);
+        })
+      }
+    })
+    console.log($scope.filterOptions)
+  }
 
-    return $scope.songData;
-}
+    //
+    // });
+    //
+    // return $scope.songData;
+
+
+
 
 
 
